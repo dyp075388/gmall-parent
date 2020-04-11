@@ -17,6 +17,7 @@
         <module>gmall-sms</module>
         <module>gmall-ums</module>
         <module>gmall-common</module>
+        <module>gmall-mbg</module>
     </modules>
 
 
