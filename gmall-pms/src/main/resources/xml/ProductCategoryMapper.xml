@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.pms.mapper.ProductCategoryMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, parent_id, name, level, product_count, product_unit, nav_status, show_status, sort, icon, keywords, description
+    </sql>
+
+    <!-- 通用查询映射结果-->
+    <resultMap id="BaseResultMap" type="com.atguigu.gmall.pms.entity.ProductCategory">
+        <id column="id" property="id"/>
+        <id column="parent_id" property="parentId"/>
+        <id column="name" property="name"/>
+        <id column="level" property="level"/>
+        <id column="product_count" property="productCount"/>
+        <id column="product_unit" property="productUnit"/>
+        <id column="nav_status" property="navStatus"/>
+        <id column="show_status" property="showStatus"/>
+        <id column="sort" property="sort"/>
+        <id column="icon" property="icon"/>
+        <id column="keywords" property="keywords"/>
+        <id column="description" property="description"/>
+    </resultMap>
+    
+    <!--List<PmsProductCategoryWithChildrenItem> listCatelogWithChildren(int i);-->
+    <select id="listCatelogWithChildren" resultMap="ExtendResultMap">
+        select * from pms_product_category where parent_id=#{i}
+    </select>
+
+    <!-- 递归调用，好叼的样子 -->
+    <resultMap id="ExtendResultMap" type="com.atguigu.gmall.vo.product.PmsProductCategoryWithChildrenItem"
+        extends="BaseResultMap">
+        <collection property="children" select="listCatelogWithChildren" column="id"></collection>
+    </resultMap>
+</mapper>
